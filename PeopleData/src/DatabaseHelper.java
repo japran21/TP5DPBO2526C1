@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * DatabaseHelper - Mengelola semua operasi CRUD ke database MySQL.
+ * DatabaseHelper Mengelola semua operasi CRUD ke database MySQL.
  * Database : db_people
  * Tabel    : person (id, nama, thn_lahir, kategori, email)
  */
