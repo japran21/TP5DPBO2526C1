@@ -2,14 +2,13 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * DatabaseHelper Mengelola semua operasi CRUD ke database MySQL.
- * Database : db_people
- * Tabel    : person (id, nama, thn_lahir, kategori, email)
+/*
+ DatabaseHelper Mengelola semua operasi CRUD ke database MySQL.
+ Database : db_people
+ Tabel : person (id, nama, thn_lahir, kategori, email)
  */
 public class DatabaseHelper {
 
-    // ===== Konfigurasi Koneksi =====
     private static final String DB_URL  = "jdbc:mysql://localhost:3306/db_people?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String DB_USER = "root";
     private static final String DB_PASS = ""; // Ganti sesuai password MySQL kamu
@@ -19,16 +18,11 @@ public class DatabaseHelper {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
 
-    // =====================================================================
-    //  CREATE
-    // =====================================================================
-
-    /**
-     * Menyimpan data Person baru ke database.
-     *
-     * @return true jika INSERT berhasil.
-     *         false jika ID sudah ada (duplicate primary key).
-     * @throws SQLException untuk error koneksi atau query lainnya.
+    /*
+     Menyimpan data Person baru ke database.
+     @return true jika INSERT berhasil.
+     false jika ID sudah ada (duplicate primary key).
+     @throws SQLException untuk error koneksi atau query lainnya.
      */
     public static boolean insertPerson(Person p) throws SQLException {
         String sql = "INSERT INTO person (id, nama, thn_lahir, kategori, email) VALUES (?, ?, ?, ?, ?)";
@@ -47,13 +41,9 @@ public class DatabaseHelper {
         }
     }
 
-    // =====================================================================
-    //  READ
-    // =====================================================================
-
-    /**
-     * Mengambil semua data dari tabel person, diurutkan berdasarkan id.
-     * Digunakan oleh getTableModel() — tidak perlu ArrayList di layer UI.
+    /*
+     Mengambil semua data dari tabel person, diurutkan berdasarkan id.
+     Digunakan oleh getTableModel() — tidak perlu ArrayList di layer UI.
      */
     private static ArrayList<Person> getAllPersons() throws SQLException {
         ArrayList<Person> list = new ArrayList<>();
@@ -74,9 +64,9 @@ public class DatabaseHelper {
         return list;
     }
 
-    /**
-     * Membangun DefaultTableModel langsung dari database.
-     * PeopleMenu cukup panggil ini — tidak perlu menyimpan ArrayList sendiri.
+    /*
+     Membangun DefaultTableModel langsung dari database.
+     PeopleMenu cukup panggil ini — tidak perlu menyimpan ArrayList sendiri.
      */
     public static DefaultTableModel getTableModel() throws SQLException {
         Object[] cols = { "No", "ID", "Nama", "Thn Lahir", "Kategori", "Email" };
@@ -102,9 +92,9 @@ public class DatabaseHelper {
         return model;
     }
 
-    /**
-     * Mengecek apakah suatu ID sudah ada di database.
-     * Dipakai sebelum INSERT untuk mencegah duplikat.
+    /*
+     Mengecek apakah suatu ID sudah ada di database.
+     *Dipakai sebelum INSERT untuk mencegah duplikat.
      */
     public static boolean isIdExist(String id) throws SQLException {
         String sql = "SELECT COUNT(*) FROM person WHERE id = ?";
@@ -117,12 +107,9 @@ public class DatabaseHelper {
         }
     }
 
-    // =====================================================================
-    //  UPDATE
-    // =====================================================================
 
-    /**
-     * Memperbarui data Person di database berdasarkan ID (PK tidak diubah).
+    /*
+     Memperbarui data Person di database berdasarkan ID (PK tidak diubah).
      */
     public static void updatePerson(Person p) throws SQLException {
         String sql = "UPDATE person SET nama = ?, thn_lahir = ?, kategori = ?, email = ? WHERE id = ?";
@@ -137,12 +124,9 @@ public class DatabaseHelper {
         }
     }
 
-    // =====================================================================
-    //  DELETE
-    // =====================================================================
 
-    /**
-     * Menghapus data Person dari database berdasarkan ID.
+    /*
+     Menghapus data Person dari database berdasarkan ID.
      */
     public static void deletePerson(String id) throws SQLException {
         String sql = "DELETE FROM person WHERE id = ?";
