@@ -8,11 +8,7 @@ import java.awt.event.MouseEvent;
 import java.time.Year;
 import java.util.ArrayList;
 
-/**
- * PeopleMenu merupakan GUI Form utama untuk manajemen data orang (Member & Staf Gym).
- * Mengimplementasikan seluruh operasi CRUD, dialog konfirmasi hapus data,
- * dan komponen bonus JRadioButton untuk atribut Jenis Kelamin.
- */
+
 public class PeopleMenu extends JFrame {
     private JPanel mainPanel;
     private JLabel titleLabel;
