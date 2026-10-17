@@ -24,10 +24,6 @@ public class PeopleMenu extends JFrame {
 
     // ArrayList dihapus sesuai spesifikasi TP4 — semua data diambil langsung dari database
     private int selectedIndex = -1; // -1 = belum ada baris yang diklik
-
-    // ============================================================
-    //  CONSTRUCTOR
-    // ============================================================
     public PeopleMenu() {
         if (mainPanel == null) {
             initUI();
@@ -47,7 +43,7 @@ public class PeopleMenu extends JFrame {
         // Muat data awal dari database ke tabel
         refreshTable();
 
-        // ---- Listener: tombol Add / Update ----
+        //  tombol Add / Update 
         addUpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,7 +55,7 @@ public class PeopleMenu extends JFrame {
             }
         });
 
-        // ---- Listener: tombol Delete ----
+        //  tombol Delete 
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,7 +63,7 @@ public class PeopleMenu extends JFrame {
             }
         });
 
-        // ---- Listener: tombol Cancel ----
+        // tombol Cancel 
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,7 +71,7 @@ public class PeopleMenu extends JFrame {
             }
         });
 
-        // ---- Listener: klik baris tabel ----
+        //  klik baris tabel 
         // saat salah satu baris tabel ditekan
         peopleTable.addMouseListener(new MouseAdapter() {
             @Override
@@ -108,9 +104,6 @@ public class PeopleMenu extends JFrame {
         });
     }
 
-    // ============================================================
-    //  REFRESH TABEL — tarik data segar dari database
-    // ============================================================
     public void refreshTable() {
         try {
             peopleTable.setModel(DatabaseHelper.getTableModel());
@@ -121,9 +114,6 @@ public class PeopleMenu extends JFrame {
         }
     }
 
-    // ============================================================
-    //  INSERT DATA
-    // ============================================================
     public void insertData() {
         String id       = idField.getText().trim();
         String nama     = namaField.getText().trim();
@@ -132,7 +122,7 @@ public class PeopleMenu extends JFrame {
                           ? kategoriComboBox.getSelectedItem().toString() : "";
         String email    = emailField.getText().trim();
 
-        // --- Validasi: tidak boleh ada kolom yang kosong ---
+        // Validasi: tidak boleh ada kolom yang kosong
         if (id.isEmpty() || nama.isEmpty() || strTahun.isEmpty() || email.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Semua kolom wajib diisi!\nID, Nama, Tahun Lahir, dan Email tidak boleh kosong.",
@@ -140,7 +130,7 @@ public class PeopleMenu extends JFrame {
             return;
         }
 
-        // --- Validasi: kategori harus dipilih ---
+        //  Validasi: kategori harus dipilih 
         if (kategori.equals("--- Pilih Kategori ---") || kategori.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Silakan pilih Kategori terlebih dahulu!",
@@ -148,7 +138,7 @@ public class PeopleMenu extends JFrame {
             return;
         }
 
-        // --- Validasi: tahun lahir harus angka ---
+        // Validasi: tahun lahir harus angka
         int thnLahir;
         try {
             thnLahir = Integer.parseInt(strTahun);
@@ -167,7 +157,7 @@ public class PeopleMenu extends JFrame {
             return;
         }
 
-        // --- Validasi: cek duplikat ID di database ---
+        //  Validasi: cek duplikat ID di database 
         try {
             if (DatabaseHelper.isIdExist(id)) {
                 JOptionPane.showMessageDialog(this,
@@ -182,7 +172,7 @@ public class PeopleMenu extends JFrame {
             return;
         }
 
-        // --- Simpan ke database ---
+        //  Simpan ke database 
         try {
             boolean berhasil = DatabaseHelper.insertPerson(
                 new Person(id, nama, thnLahir, kategori, email)
@@ -208,9 +198,7 @@ public class PeopleMenu extends JFrame {
         }
     }
 
-    // ============================================================
-    //  UPDATE DATA
-    // ============================================================
+  
     public void updateData() {
         if (selectedIndex < 0) {
             JOptionPane.showMessageDialog(this,
@@ -226,7 +214,7 @@ public class PeopleMenu extends JFrame {
                           ? kategoriComboBox.getSelectedItem().toString() : "";
         String email    = emailField.getText().trim();
 
-        // --- Validasi: tidak boleh ada kolom yang kosong ---
+        //  Validasi: tidak boleh ada kolom yang kosong 
         if (id.isEmpty() || nama.isEmpty() || strTahun.isEmpty() || email.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Semua kolom wajib diisi!\nID, Nama, Tahun Lahir, dan Email tidak boleh kosong.",
@@ -234,7 +222,7 @@ public class PeopleMenu extends JFrame {
             return;
         }
 
-        // --- Validasi: kategori harus dipilih ---
+        //  Validasi: kategori harus dipilih
         if (kategori.equals("--- Pilih Kategori ---") || kategori.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Silakan pilih Kategori terlebih dahulu!",
@@ -242,7 +230,7 @@ public class PeopleMenu extends JFrame {
             return;
         }
 
-        // --- Validasi: tahun lahir harus angka ---
+        //  Validasi: tahun lahir harus angka 
         int thnLahir;
         try {
             thnLahir = Integer.parseInt(strTahun);
@@ -261,7 +249,7 @@ public class PeopleMenu extends JFrame {
             return;
         }
 
-        // --- Update ke database ---
+        // Update ke database 
         try {
             DatabaseHelper.updatePerson(new Person(id, nama, thnLahir, kategori, email));
             refreshTable();
@@ -277,9 +265,7 @@ public class PeopleMenu extends JFrame {
         }
     }
 
-    // ============================================================
-    //  DELETE DATA
-    // ============================================================
+    
     public void deleteData() {
         if (selectedIndex < 0) {
             JOptionPane.showMessageDialog(this,
@@ -316,9 +302,7 @@ public class PeopleMenu extends JFrame {
         }
     }
 
-    // ============================================================
-    //  CLEAR FORM
-    // ============================================================
+   
     public void clearForm() {
         idField.setText("");
         namaField.setText("");
@@ -331,9 +315,7 @@ public class PeopleMenu extends JFrame {
         peopleTable.clearSelection();
     }
 
-    // ============================================================
-    //  initUI — Fallback builder jika tidak pakai IntelliJ GUI designer
-    // ============================================================
+
     private void initUI() {
         mainPanel = new JPanel(new BorderLayout(10, 15));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
@@ -415,9 +397,7 @@ public class PeopleMenu extends JFrame {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
     }
 
-    // ============================================================
-    //  MAIN
-    // ============================================================
+
     public static void main(String[] args) {
         PeopleMenu menu = new PeopleMenu();
         menu.setSize(800, 600);
